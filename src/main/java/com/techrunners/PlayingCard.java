@@ -34,7 +34,10 @@ public class PlayingCard {
                 return 'X';
         }
     }
-    public int getRank() { return rank;}
+    public int getRank() {
+        return rank;
+    }
+
     public char getCharRank() {
         char c = (char) (rank + '0'); // 2-9
 
@@ -51,7 +54,7 @@ public class PlayingCard {
         return c;
     }
     String getCard() {
-        return Character.toString(getSuit() + getCharRank());
+        return Character.toString(getCharRank());
     }
 
 

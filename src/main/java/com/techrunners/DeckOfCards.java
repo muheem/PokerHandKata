@@ -17,16 +17,16 @@ public class DeckOfCards {
     private void LoadTheDeck() {
         int index = 0;
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
-             cards[index] = new PlayingCard(index, PlayingCard.SUIT.Clubs);
+             cards[index] = new PlayingCard(i, PlayingCard.SUIT.Clubs);
         }
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++) {
-            cards[index] = new PlayingCard(index, PlayingCard.SUIT.Diamonds);
+            cards[index] = new PlayingCard(i, PlayingCard.SUIT.Diamonds);
         }
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
-            cards[index] = new PlayingCard(index, PlayingCard.SUIT.Hearts);
+            cards[index] = new PlayingCard(i, PlayingCard.SUIT.Hearts);
         }
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
-            cards[index] = new PlayingCard(index, PlayingCard.SUIT.Spades);
+            cards[index] = new PlayingCard(i, PlayingCard.SUIT.Spades);
         }
     }
 
@@ -36,7 +36,7 @@ public class DeckOfCards {
         // Mark the card as played
 
         Random rand = new Random();
-        int num = rand.nextInt(52 + 1);
+        int num = rand.nextInt(52);
         while (cards[num].removed()){
             num = rand.nextInt(52 + 1);
         }
