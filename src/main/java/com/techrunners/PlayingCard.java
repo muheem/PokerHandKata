@@ -1,18 +1,39 @@
 package com.techrunners;
 
 public class PlayingCard {
-    enum SUIT {Clubs, Diamonds, Hearts, Spades};
+    public boolean removed() {
+        return removed;
+    }
+    public void remove() {
+        removed = true;
+    }
+    public enum SUIT {Clubs, Diamonds, Hearts, Spades};
 
     private int rank;
-    private char suit;
+    private SUIT suit;
 
+    boolean removed = false;
 
-    PlayingCard(int rank, char suit) {
+    PlayingCard(int rank, SUIT suit) {
         this.rank = rank;
         this.suit = suit;
     }
 
-    public int getSuit() { return suit;}
+    public char getSuit() {
+        switch (suit) {
+            case Clubs:
+                return 'C';
+            case Diamonds:
+                return 'D';
+            case Hearts:
+                return 'H';
+            case Spades:
+                return 'S';
+            default:
+                System.out.println("Invalid Suit" + suit.toString());
+                return 'X';
+        }
+    }
     public int getRank() { return rank;}
     public char getCharRank() {
         char c = (char) (rank + '0'); // 2-9
