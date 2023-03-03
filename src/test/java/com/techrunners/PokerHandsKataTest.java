@@ -9,7 +9,7 @@ public class PokerHandsKataTest {
                 PokerPlayer slim = new PokerPlayer("slim");
                 PokerPlayer sharp = new PokerPlayer("sharp");
 
-                Dealer dealer = new Dealer();
+                Dealer dealer = new PokerDealer();
                 PokerGame game = new PokerGame(dealer, slim, sharp);
                 game.playTheGame();
                 PlayingCard[]  hand1 = slim.hand();
@@ -26,7 +26,7 @@ public class PokerHandsKataTest {
                 PokerPlayer slim = new PokerPlayer("slim");
                 PokerPlayer sharp = new PokerPlayer("sharp");
 
-                Dealer dealer = new Dealer();
+                Dealer dealer = new PokerDealer();
                 PokerGame game = new PokerGame(dealer, slim, sharp);
                 game.playTheGame();
                 PlayingCard[]  hand1 = slim.hand();
@@ -37,4 +37,5 @@ public class PokerHandsKataTest {
                 assertEquals(5, hand1.length);
                 assertEquals(5, hand2.length);
         }
+
 }

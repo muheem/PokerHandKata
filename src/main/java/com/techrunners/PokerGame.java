@@ -21,6 +21,8 @@ public class PokerGame {
 
     PokerGame(Dealer dealer){
         this.dealer = dealer;
+        this.player1 = new PokerPlayer("White");
+        this.player2 = new PokerPlayer("Black");
     }
     PokerGame(Dealer dealer, PokerPlayer player1, PokerPlayer player2){
         this.dealer = dealer;
