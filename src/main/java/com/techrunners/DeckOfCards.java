@@ -32,16 +32,15 @@ public class DeckOfCards {
 
     PlayingCard deal() {
         // Get a random number from 1 to 52.
-        //return the card at that location in the deck.
+        // "remove" the card at that numbered location in the deck.
         // Mark the card as played
 
         Random rand = new Random();
-        int num = rand.nextInt(52);
+        int num = rand.nextInt(51) + 1;
         while (cards[num].removed()){
-            num = rand.nextInt(52 + 1);
+            num = rand.nextInt(51) + 1;
         }
-        cards[num].remove();
-        return cards[num];
+        cards[num].remove(); // .. from pack
+        return cards[num]; //  Pass to player...
     }
-
 }

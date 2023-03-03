@@ -54,7 +54,7 @@ public class PlayingCard {
         return c;
     }
     String getCard() {
-        return Character.toString(getCharRank());
+        return Character.toString(getCharRank()) + Character.toString(getSuit());
     }
 
 
