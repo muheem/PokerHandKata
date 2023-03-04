@@ -31,4 +31,12 @@ public class PokerPlayer {
         }
         return str;
     }
+
+    public void myHand(PlayingCard[] cards) {
+            hand = cards;
+    }
+    public void getHand(String[] cards) {
+        for (int i =0; i <Dealer.NUMBER_OF_CARDS_IN_A_HAND; i++)
+            hand[i].setCard(cards[i]);
+    }
 }

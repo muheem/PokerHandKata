@@ -2,6 +2,10 @@ package com.techrunners;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
+
+
 public class PokerHandsKataTest {
 
         @Test
@@ -38,4 +42,18 @@ public class PokerHandsKataTest {
                 assertEquals(5, hand2.length);
         }
 
+        @Test
+        public void CheckHandUsingTestDealer() {
+                String blackHand = "2H SD 5S 9C KD";
+                String whiteHand = "2C 3H 4S 8C AH";
+
+                Dealer td = new TestDealer();
+                ((TestDealer) td).newGameData(blackHand, whiteHand);
+                PokerGame game = new PokerGame(td);
+
+
+                //System.out.println("Slim's hand : " + slim.showHand());
+                //System.out.println("Sharp's hand : " + sharp.showHand());
+                assertEquals("White wins.", game.playTheGame());
+        }
 }

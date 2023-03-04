@@ -18,7 +18,9 @@ public class PlayingCard {
         this.rank = rank;
         this.suit = suit;
     }
-
+    PlayingCard(String input) {
+        this.setCard(input);
+    }
     public char getSuit() {
         switch (suit) {
             case Clubs:
@@ -34,6 +36,22 @@ public class PlayingCard {
                 return 'X';
         }
     }
+    public SUIT setSuit(char c) {
+        switch (c) {
+            case 'C':
+                return SUIT.Clubs;
+            case 'D':
+                return SUIT.Diamonds;
+            case 'H':
+                return SUIT.Hearts;
+            case 'S':
+                return SUIT.Spades;
+            default:
+                System.out.println("Invalid Suit " + c);
+                return SUIT.Clubs;
+        }
+    }
+
     public int getRank() {
         return rank;
     }
@@ -56,6 +74,10 @@ public class PlayingCard {
     String getCard() {
         return Character.toString(getCharRank()) + Character.toString(getSuit());
     }
-
-
+    void setCard(String s) {
+        if (s.length() == 2) {
+            rank = s.charAt(0);
+            suit = setSuit(s.charAt(1));
+        }
+    }
 }

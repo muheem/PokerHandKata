@@ -21,8 +21,9 @@ public class PokerGame {
 
     PokerGame(Dealer dealer){
         this.dealer = dealer;
-        this.player1 = new PokerPlayer("White");
-        this.player2 = new PokerPlayer("Black");
+        this.player1 = new PokerPlayer("Black");
+        this.player2 = new PokerPlayer("White");
+
     }
     PokerGame(Dealer dealer, PokerPlayer player1, PokerPlayer player2){
         this.dealer = dealer;
@@ -30,22 +31,19 @@ public class PokerGame {
         this.player2 = player2;
     }
 
-    public void playTheGame() {
-
-        for (int i = 0; i < dealer.NUMBER_OF_CARDS_IN_A_HAND; i++) {
-            player1.hitMe(dealer.dealACard());
-            player2.hitMe(dealer.dealACard());
-        }
+    public String playTheGame() {
+        dealer.dealARound(player1, player2);
+        return compareHands();
     }
 
     public String compareHands(PlayingCard[] hand1, PlayingCard[] hand2) {
 
         if ( hand1[0].getRank() > hand2[0].getRank())
-            return ("Player " + player1.name() + " wins" );
+            return (player1.name() + " wins." );
         else if ( hand1[0].getRank() < hand1[0].getRank())
-            return ("Player " + player2.name() + " wins" );
+            return (player2.name() + " wins." );
          else
-             return ("Result is a draw." );
+             return ("Tie." );
     }
 
     public String compareHands() {
