@@ -15,9 +15,7 @@ class TestDealer extends Dealer {
     }
 
     void dealARound(PokerPlayer p1, PokerPlayer p2){
-        //fillHands();
-        p1.myHand(hand1);
-        p2.myHand(hand2);
+        //newGameData();
     }
     void fillHands(){
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_HAND; i++ ) {

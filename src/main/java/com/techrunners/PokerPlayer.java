@@ -1,42 +1,29 @@
 package com.techrunners;
 
 public class PokerPlayer {
-    PlayingCard[] hand = new PlayingCard[Dealer.NUMBER_OF_CARDS_IN_A_HAND];
+    public PokerHand hand = new PokerHand();
+
     int count = 0;
     private String name;
+
+    boolean sameSuit = false;
+    public String highestCard = "";
+
     PokerPlayer(String name) {
         this.name = name;
     }
     String name() {
         return name;
     }
-    void hitMe(PlayingCard card) {
-        if (count == Dealer.NUMBER_OF_CARDS_IN_A_HAND)
-            return; // no more cards needed,
-        hand[count++] = card;
-    }
-
-    public PlayingCard[] hand() {
-        return hand;
-    }
 
     public String showHand() {
-        return joinWithSpace(hand);
+        return hand.showHand();
+    }
+    public String[] hand() {
+        return hand.getHand();
+    }
+    public void setHand(String[] cards) {
+            hand.setHand(cards);
     }
 
-    public static String joinWithSpace(PlayingCard[] arrayOfCards){
-        String str = "";
-        for ( PlayingCard card : arrayOfCards) {
-            str += card.getCard() + " ";
-        }
-        return str;
-    }
-
-    public void myHand(PlayingCard[] cards) {
-            hand = cards;
-    }
-    public void getHand(String[] cards) {
-        for (int i =0; i <Dealer.NUMBER_OF_CARDS_IN_A_HAND; i++)
-            hand[i].setCard(cards[i]);
-    }
 }
