@@ -1,31 +1,71 @@
 package com.techrunners;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class PokerGame {
 
+    public enum Element {
+        H("Hydrogen"),
+        HE("Helium"),
+        // ...
+        NE("Neon");
+
+        public final String label;
+
+        private Element(String label) {
+            this.label = label;
+        }
+    }
 
     public enum BEST_HAND {
-        A_PAIR, // Check the rank number
-        TWO_PAIR, // rank number and another PAIR
-        THREE_OF_A_KIND, // rank number and PAIR
-        A_STRAIGHT, //  sequence in rank and suit
-        FLUSH, //
-        FULL_HOUSE,
-        FOUR_OF_A_KIND,
-        STRAIGHT_FLUSH,
-        ROYAL_FLUSH
+        HIGHEST_CARD(1,"Highest Card") ,
+        A_PAIR(2,"A Pair"), // Check the rank number
+        TWO_PAIR(3,"Two Pair"), // rank number and another PAIR
+        THREE_OF_A_KIND(4,"Three of a Kind"), // rank number and PAIR
+        A_STRAIGHT(5,"A Straight"), //  sequence in rank and suit
+        A_FLUSH(6,"A Flush"), //
+        FULL_HOUSE(7,"Full House"),
+        FOUR_OF_A_KIND(8,"Four of a Kind"),
+        STRAIGHT_FLUSH(9,"Straight Flush"),
+        ROYAL_FLUSH(10,"RoyaL FLush");
+
+        public final int ordinal;
+        public final String label;
+
+        String name;
+
+        private BEST_HAND(int ordinal, String label) {
+            this.ordinal = ordinal;
+            this.label = label;
+        }
     };
 
     Dealer dealer;
     PokerPlayer player1;
     PokerPlayer player2;
+
+    private static boolean orderCards(char[] rankA) {
+        String straight = "A23456789JQKA";
+
+
+        return false;
+    }
+    private static boolean checkHighestCard(char[] rankA) {
+        String straight = "A23456789JQKA";
+        // order cards
+        // pick the last
+        return false;
+    }
+    private static boolean checkforAStraight(char[] rankA) {
+        String straight = "A23456789JQKA";
+        // order cards
+        // check for a sequence.
+
+        return false;
+    }
 
     private static int GetHighestCard (char[] rank) {
         char highest = ' ';
@@ -76,22 +116,26 @@ public class PokerGame {
         this.player2 = player2;
     }
 
-    public PokerPlayer playTheGame() {
+    public String playTheGame() {
         dealer.dealARound(player1, player2);
         checkHand(player1);
         checkHand(player2);
 
-        return winner();
+        return winner() ;
     }
 
-    public PokerPlayer winner() {
-        // RoyalFlush
-        // Winner has a full house
+    public String winner() {
+        BEST_HAND hand1 = player1.myHand();
+        BEST_HAND hand2 = player2.myHand();
 
-
-        return player1;
+        if (hand1.ordinal > hand2.ordinal)
+            return player1.name() + " wins with " + player1.myHand().label;
+        else if (hand1.ordinal < hand2.ordinal)
+            return player2.name() + " wins with " + player2.myHand().label;
+        else
+            return "A Draw";
     }
-    
+
     private void checkHand(PokerPlayer p) {
         String[] hand = p.hand();
         String rank = "";
@@ -111,13 +155,24 @@ public class PokerGame {
         String finalSuit = suit;
         p.sameSuit = suit.chars().allMatch(c -> c == finalSuit.charAt(0)) ;
 
-        // Check for pairs and three-of-a-kind
+        List<Character> rankS= convertStringToCharList(rank);
+        p.groupedSuit
+                = rankS.stream().collect(
+                Collectors.groupingBy(
+                        Function.identity(),
+                        Collectors.counting()));
+
+        // Check for pairs and three-of-a-kind and 4-of-a-kind.
         List<Character> rankL= convertStringToCharList(rank);
-        Map<Character, Long> result
+        p.groupedRank
                 = rankL.stream().collect(
                 Collectors.groupingBy(
                         Function.identity(),
                         Collectors.counting()));
+
+        //if no pair, 3 or 4, then MAYBE its a straight...
+        p.straight =  checkforAStraight(rankA);
     }
 
+    // Find  highest value card.
 }
