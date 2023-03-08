@@ -1,24 +1,68 @@
 package com.techrunners;
 
-public class PlayingCard {
+public class Card {
+
+    public enum Suit {
+        Clubs("C"),
+        Diamonds("D"),
+        Hearts("H"),
+        Spades("S");
+
+        public final String label;
+
+        private Suit(String label) {
+
+            this.label = label;
+        }
+    };
+
+
+    public enum Rank {
+        ONE(1,"A") ,
+        TWO(2,"2"),
+        THREE(3,"3"),
+        FOUR(4,"4"),
+        FIVE(5,"5"),
+        SIX(6,"6"),
+        SEVEN(7,"7"),
+        EIGHT(8,"8"),
+        NINE(9,"9"),
+        TEN(10,"10"),
+        JACK(11,"J"),
+        QUEEN(12,"Q"),
+        KING(12,"K"),
+        ACE(13,"A")
+        ;
+
+        public final int ordinal;
+        public final String label;
+
+        private Rank(int ordinal, String label) {
+            this.ordinal = ordinal;
+            this.label = label;
+        }
+    };
+
+
+
     public boolean removed() {
         return removed;
     }
     public void remove() {
         removed = true;
     }
-    public enum SUIT {Clubs, Diamonds, Hearts, Spades};
+
 
     private int rank;
-    private SUIT suit;
+    private Suit suit;
 
     boolean removed = false;
 
-    PlayingCard(int rank, SUIT suit) {
+    Card(int rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
     }
-    PlayingCard(String input) {
+    Card(String input) {
         this.setCard(input);
     }
     public char getSuit() {
@@ -36,19 +80,19 @@ public class PlayingCard {
                 return 'X';
         }
     }
-    public SUIT setSuit(char c) {
+    public Suit setSuit(char c) {
         switch (c) {
             case 'C':
-                return SUIT.Clubs;
+                return Suit.Clubs;
             case 'D':
-                return SUIT.Diamonds;
+                return Suit.Diamonds;
             case 'H':
-                return SUIT.Hearts;
+                return Suit.Hearts;
             case 'S':
-                return SUIT.Spades;
+                return Suit.Spades;
             default:
                 System.out.println("Invalid Suit " + c);
-                return SUIT.Clubs;
+                return Suit.Clubs;
         }
     }
 
