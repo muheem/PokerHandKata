@@ -1,5 +1,6 @@
 package com.techrunners;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -25,12 +26,27 @@ public class Game {
         return false;
     }
 
-    public static boolean checkforAStraight(char[] rankA) {
-        String straight = "A23456789JQKA";
-        // order cards
-        // check for a sequence.
+    public static boolean checkforAStraight(String rank) {
+        String straight = "A23456789TJQKA";
+        int[]  intA = new int[rank.length()];
+        char[] rankArray = rank.toCharArray();
 
-        return false;
+        for (int j = 0; j < rankArray.length; j++) {
+            for (int i = 0 ; i < straight.length(); i++) {
+                if (rank.charAt(j) == straight.charAt(i) )
+                    intA[j]=i;
+            }
+        }
+        Arrays.sort(intA);
+
+        // Reform string in order.
+        for ( int i = 0; i < rank.length() ; i++) {
+            rankArray[i] = straight.charAt(intA[i]);
+            }
+
+        String sortedRank = String.valueOf(rankArray);
+
+        return straight.contains(sortedRank);
     }
 
     public static int GetHighestCard(char[] rank) {

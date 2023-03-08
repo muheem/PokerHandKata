@@ -27,8 +27,8 @@ public class Hand {
         A_FLUSH(6,"a flush"), //
         FULL_HOUSE(7,"full house"),
         FOUR_OF_A_KIND(8,"four of a kind"),
-        STRAIGHT_FLUSH(9,"straight flush"),
-        ROYAL_FLUSH(10,"royaL fLush");
+        STRAIGHT_FLUSH(9,"a straight flush"),
+        ROYAL_FLUSH(10,"a royaL fLush");
 
         public final int ordinal;
         public final String label;
@@ -97,7 +97,7 @@ public class Hand {
                         Collectors.counting()));
 
         //if no pair, 3 or 4, then MAYBE its a straight...
-        straight =  Game.checkforAStraight(rankA);
+        straight =  Game.checkforAStraight(rank);
     }
 
 
