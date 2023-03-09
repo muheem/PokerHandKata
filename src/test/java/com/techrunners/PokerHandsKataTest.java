@@ -11,7 +11,7 @@ public class PokerHandsKataTest {
 
         @Test
         public void CheckHandWinningWithPair() {
-                String blackHand = "2H SD 2S 9C KD";
+                String blackHand = "2H 5D 2S 9C KD";
                 String whiteHand = "2C 3H 5S 8C AH";
 
                 Player black = new Player("Black" );
@@ -26,7 +26,7 @@ public class PokerHandsKataTest {
 
         @Test
         public void CheckHandWinningWithTwoPairs() {
-                String blackHand = "2H SD 2S 9C KD";
+                String blackHand = "2H 5D 2S 9C KD";
                 String whiteHand = "5C 3H 5S 3C AH";
 
                 Player black = new Player("Black" );
@@ -41,7 +41,7 @@ public class PokerHandsKataTest {
 
         @Test
         public void CheckHandWinningWithThreeOfAKind() {
-                String blackHand = "2H SD 2S 9C 2D";
+                String blackHand = "2H 5D 2S 9C 2D";
                 String whiteHand = "5C KH 5S 3C AH";
 
                 Player black = new Player("Black" );

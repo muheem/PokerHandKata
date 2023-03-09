@@ -22,7 +22,7 @@ public class Card {
 
 
     public enum Rank {
-        //ONE(1,"A") ,
+        ONE(1,'A') ,
         TWO(2,'2'),
         THREE(3,'3'),
         FOUR(4,'4'),
@@ -48,15 +48,12 @@ public class Card {
 
     };
 
-
-
     public boolean removed() {
         return removed;
     }
     public void remove() {
         removed = true;
     }
-
 
     private Rank rank;
     private Suit suit;
@@ -71,21 +68,7 @@ public class Card {
         setRank(s.charAt(0));
         setSuit(s.charAt(1));
     }
-    public char getSuit() {
-        switch (suit) {
-            case Clubs:
-                return 'C';
-            case Diamonds:
-                return 'D';
-            case Hearts:
-                return 'H';
-            case Spades:
-                return 'S';
-            default:
-                System.out.println("Invalid Suit" + suit.toString());
-                return 'X';
-        }
-    }
+
     public void setSuit(char c) {
         switch (c) {
             case 'C':
@@ -105,12 +88,14 @@ public class Card {
     public Rank getRank() {
         return rank;
     }
-
+    public Suit getSuit() {
+        return suit;
+    }
 
     public void setRank(char c) {
         switch (c) {
-            case 'A':
-                rank = Rank.ACE; break;
+            case '1':
+                rank = Rank.ONE; break;
             case '2':
                 rank = Rank.TWO; break;
             case '3':
@@ -135,6 +120,8 @@ public class Card {
                 rank = Rank.QUEEN; break;
             case 'K':
                 rank = Rank.KING; break;
+            case 'A':
+                rank = Rank.ACE; break;
             default:
                 System.out.println("Invalid Rank " + c);
                 rank = Rank.ACE;

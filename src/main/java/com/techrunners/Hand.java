@@ -1,7 +1,9 @@
 package com.techrunners;
 
-import java.util.List;
-import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+
+import javax.swing.*;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -34,7 +36,7 @@ public class Hand {
         A_STRAIGHT(5,"a straight", WinType.Sequence), //  sequence in rank and suit
         A_FLUSH(6,"a flush", WinType.Same_Suit), //
         FULL_HOUSE(7,"full house", WinType.Multiples),
-        FOUR_OF_A_KIND(8,"four of a kind", WinType.Sequence),
+        FOUR_OF_A_KIND(8,"four of a kind", WinType.Multiples),
         STRAIGHT_FLUSH(9,"a straight flush", WinType.Sequence),
         ROYAL_FLUSH(10,"a royaL fLush", WinType.Sequence);
 
@@ -42,14 +44,15 @@ public class Hand {
         public final String label;
         public final WinType type;
 
-        String name;
-
-        private BEST_HAND(int ordinal, String label, WinType type) {
+        BEST_HAND(int ordinal, String label, WinType type) {
             this.ordinal = ordinal;
             this.label = label;
             this.type = type;
         }
+
     };
+
+
 
     public int index = 0;
 
@@ -83,7 +86,18 @@ public class Hand {
             rank += hand[i].charAt(0);
             suit += hand[i].charAt(1);
         }
-        System.arraycopy(fiveCards, 0, orderedHand, 0, fiveCards.length);
+        orderedHand = Arrays.copyOf(fiveCards, fiveCards.length);
+        Arrays.sort(orderedHand, Comparator.comparing(Card::getRank));
+
+        // Deal with issue of an ace in a sequence hand.
+        Card lastCard = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-1];
+        Card.Rank lastCardRank = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-1].getRank();
+        Card.Rank nextToLastCardRank = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-2].getRank();
+        if (lastCardRank == Card.Rank.ACE &&  nextToLastCardRank!= Card.Rank.KING){
+            Card one = new Card(Card.Rank.ONE, lastCard.getSuit());
+            orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-1] = one;
+            Arrays.sort(orderedHand, Comparator.comparing(Card::getRank));
+        }
 
         char[] rankA = rank.toCharArray();
         int i = Game.GetHighestCard(rankA);
@@ -163,6 +177,5 @@ public class Hand {
         myHand =  BEST_HAND.HIGHEST_CARD;
     }
 
-    // Find  highest value card.
 }
 

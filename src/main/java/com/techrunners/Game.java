@@ -12,19 +12,6 @@ public class Game {
     Player player1;
     Player player2;
 
-    private static boolean orderCards(char[] rankA) {
-        String straight = "A23456789JQKA";
-
-
-        return false;
-    }
-
-    public static boolean checkHighestCard(char[] rankA) {
-        String straight = "A23456789JQKA";
-        // order cards
-        // pick the last
-        return false;
-    }
 
     public static boolean checkforAStraight(String rank) {
         String straight = "A23456789TJQKA";
@@ -103,7 +90,13 @@ public class Game {
             return player1.winningMessage();
         else if (hand1.ordinal < hand2.ordinal)
             return player2.winningMessage();
-        else if (hand1 == Hand.BEST_HAND.HIGHEST_CARD) {
+        else if (hand1.type == Hand.WinType.Sequence) {
+            // same hand, but one is probably higher value.
+            return compareHighestCards();
+        }
+
+
+        if (hand1 == Hand.BEST_HAND.HIGHEST_CARD) {
             char hc1 = player1.hand.highestCard;
             char hc2 = player2.hand.highestCard;
 
@@ -127,14 +120,14 @@ public class Game {
         Card[] oH1 = player1.hand.orderedHand;
         Card[] oH2 = player2.hand.orderedHand;
 
-        // Already compared 1st, 4 to go
+
         boolean winner = false;
         for (int i = oH1.length - 1; i >=0  ; i--) {
-            if (oH1[i].getRank().label > oH2[i].getRank().label) {
-                player1.hand.highestCard = oH1[i].getRank().label;
+            if (oH1[i].getRank().ordinal > oH2[i].getRank().ordinal) {
+                player1.setWinningCardValue(oH1[i].getRank().label);
                 return player1.winningMessage();
-            } else if (oH1[i].getRank().label < oH2[i].getRank().label) {
-                player2.hand.highestCard = oH2[i].getRank().label;
+            } else if (oH1[i].getRank().ordinal < oH2[i].getRank().ordinal) {
+                player2.setWinningCardValue(oH2[i].getRank().label);
                 return player2.winningMessage();
             }
         }
