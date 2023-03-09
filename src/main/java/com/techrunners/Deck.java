@@ -10,9 +10,9 @@ public class Deck {
     Card[] cards = new Card[NUMBER_OF_CARDS_IN_A_DECK];
 
     Deck() {
-        this.LoadTheDeck();
+        //this.LoadTheDeck();
     }
-
+/*
     private void LoadTheDeck() {
         int index = 0;
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
@@ -28,7 +28,7 @@ public class Deck {
             cards[index] = new Card(i, Card.Suit.Spades);
         }
     }
-
+*/
     Card deal() {
         // Get a random number from 1 to 52.
         // "remove" the card at that numbered location in the deck.

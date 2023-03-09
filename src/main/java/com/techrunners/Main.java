@@ -24,7 +24,7 @@ public class Main {
                 index = i;
             }
         }
-        return index;
+        return rank[index];
     }
 
     public static List<Character> convertStringToCharList(String str)

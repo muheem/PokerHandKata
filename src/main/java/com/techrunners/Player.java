@@ -26,4 +26,13 @@ public class Player {
             hand.setHand(cards);
     }
 
+    public void setWinningCardValue(char value) {
+        hand.highestCard = value;
+    }
+    public String winningMessage() {
+        if (hand.myHand.type == Hand.WinType.High_Card)
+            return name() + " wins. - with " + hand.myHand.label + " " + hand.highestCard;
+        else
+            return name() + " wins. - with " + hand.myHand.label;
+    }
 }

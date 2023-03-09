@@ -28,21 +28,21 @@ public class Game {
 
     public static boolean checkforAStraight(String rank) {
         String straight = "A23456789TJQKA";
-        int[]  intA = new int[rank.length()];
+        int[] intA = new int[rank.length()];
         char[] rankArray = rank.toCharArray();
 
         for (int j = 0; j < rankArray.length; j++) {
-            for (int i = 0 ; i < straight.length(); i++) {
-                if (rank.charAt(j) == straight.charAt(i) )
-                    intA[j]=i;
+            for (int i = 0; i < straight.length(); i++) {
+                if (rank.charAt(j) == straight.charAt(i))
+                    intA[j] = i;
             }
         }
         Arrays.sort(intA);
 
         // Reform string in order.
-        for ( int i = 0; i < rank.length() ; i++) {
+        for (int i = 0; i < rank.length(); i++) {
             rankArray[i] = straight.charAt(intA[i]);
-            }
+        }
 
         String sortedRank = String.valueOf(rankArray);
 
@@ -100,18 +100,44 @@ public class Game {
         Hand.BEST_HAND hand2 = player2.hand.myHand;
 
         if (hand1.ordinal > hand2.ordinal)
-            return player1.name() + " wins. - with " + hand1.label /*+ " : " + " "*/;
+            return player1.winningMessage();
         else if (hand1.ordinal < hand2.ordinal)
-            return player2.name() + " wins. - with " + hand2.label;
+            return player2.winningMessage();
         else if (hand1 == Hand.BEST_HAND.HIGHEST_CARD) {
-            String hc1 = player1.hand.highestCard, hc2 = player2.hand.highestCard;
-            // compare cards.
-            if (hc1.equals(hc2))
-                return "Tie";
-            else
-                return "Black or White win: " + hc1 + " " + hc2;
-        } else
-            return "Tie";
+            char hc1 = player1.hand.highestCard;
+            char hc2 = player2.hand.highestCard;
 
+            // compare high cards.
+            if ( hc1 == hc2 )
+                return (compareHighestCards());
+
+            if (hc1 =='A' )
+                return player1.winningMessage();
+            if (hc2 =='A' )
+                return player2.winningMessage();
+            if (hc1 > hc2)
+                return player1.winningMessage();
+            if (hc1 < hc2)
+                return player2.winningMessage();
+        }
+        return "Tie";
+    }
+
+    private String compareHighestCards() {
+        Card[] oH1 = player1.hand.orderedHand;
+        Card[] oH2 = player2.hand.orderedHand;
+
+        // Already compared 1st, 4 to go
+        boolean winner = false;
+        for (int i = oH1.length - 1; i >=0  ; i--) {
+            if (oH1[i].getRank().label > oH2[i].getRank().label) {
+                player1.hand.highestCard = oH1[i].getRank().label;
+                return player1.winningMessage();
+            } else if (oH1[i].getRank().label < oH2[i].getRank().label) {
+                player2.hand.highestCard = oH2[i].getRank().label;
+                return player2.winningMessage();
+            }
+        }
+        return "Tie";
     }
 }

@@ -6,38 +6,48 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Hand {
-    private  String[] hand = new String[Game.NUMBER_OF_CARDS_IN_A_HAND];
+    private String[] hand = new String[Game.NUMBER_OF_CARDS_IN_A_HAND];
+    public Card[] fiveCards = new Card[Game.NUMBER_OF_CARDS_IN_A_HAND];
 
     boolean sameSuit = false;
-    public String highestCard = "";
+    public char highestCard;
 
     public boolean straight = false;
 
     public BEST_HAND myHand = null;
+    public Card[] orderedHand = new Card[Game.NUMBER_OF_CARDS_IN_A_HAND];
 
     public Map<Character, Long> groupedRank;
     public Map<Character, Long> groupedSuit;
+    public enum WinType {
+        Multiples,
+        Sequence,
+        Same_Suit,
+        High_Card;
+    };
 
     public enum BEST_HAND {
-        HIGHEST_CARD(1,"highest card") ,
-        A_PAIR(2,"a pair"), // Check the rank number
-        TWO_PAIR(3,"two pair"), // rank number and another PAIR
-        THREE_OF_A_KIND(4,"three of a Kind"), // rank number and PAIR
-        A_STRAIGHT(5,"a straight"), //  sequence in rank and suit
-        A_FLUSH(6,"a flush"), //
-        FULL_HOUSE(7,"full house"),
-        FOUR_OF_A_KIND(8,"four of a kind"),
-        STRAIGHT_FLUSH(9,"a straight flush"),
-        ROYAL_FLUSH(10,"a royaL fLush");
+        HIGHEST_CARD(1,"high card:", WinType.High_Card) ,
+        A_PAIR(2,"a pair", WinType.Multiples), // Check the rank number
+        TWO_PAIR(3,"two pair", WinType.Multiples), // rank number and another PAIR
+        THREE_OF_A_KIND(4,"three of a Kind", WinType.Multiples), // rank number and PAIR
+        A_STRAIGHT(5,"a straight", WinType.Sequence), //  sequence in rank and suit
+        A_FLUSH(6,"a flush", WinType.Same_Suit), //
+        FULL_HOUSE(7,"full house", WinType.Multiples),
+        FOUR_OF_A_KIND(8,"four of a kind", WinType.Sequence),
+        STRAIGHT_FLUSH(9,"a straight flush", WinType.Sequence),
+        ROYAL_FLUSH(10,"a royaL fLush", WinType.Sequence);
 
         public final int ordinal;
         public final String label;
+        public final WinType type;
 
         String name;
 
-        private BEST_HAND(int ordinal, String label) {
+        private BEST_HAND(int ordinal, String label, WinType type) {
             this.ordinal = ordinal;
             this.label = label;
+            this.type = type;
         }
     };
 
@@ -68,14 +78,16 @@ public class Hand {
         String suit = "";
 
         // Split rank ans suite
-        for(String val:hand) {
-            rank += val.charAt(0);
-            suit += val.charAt(1);
+        for (int i=0; i < Game.NUMBER_OF_CARDS_IN_A_HAND; i++) {
+            fiveCards[i] = new Card(hand[i]);
+            rank += hand[i].charAt(0);
+            suit += hand[i].charAt(1);
         }
+        System.arraycopy(fiveCards, 0, orderedHand, 0, fiveCards.length);
 
         char[] rankA = rank.toCharArray();
         int i = Game.GetHighestCard(rankA);
-        highestCard = hand[i];
+        highestCard = hand[i].charAt(0);
 
         // need to know for a flush (which ever type)
         String finalSuit = suit;
@@ -126,7 +138,7 @@ public class Hand {
             Character key = entry.getKey();
             Long value = entry.getValue();
             if (value == 4) {
-                myHand = Hand.BEST_HAND.FOUR_OF_A_KIND;
+                myHand = BEST_HAND.FOUR_OF_A_KIND;
                 return;
             }
             if (value == 3)

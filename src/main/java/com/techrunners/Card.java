@@ -1,6 +1,11 @@
 package com.techrunners;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Card {
+
 
     public enum Suit {
         Clubs("C"),
@@ -17,29 +22,30 @@ public class Card {
 
 
     public enum Rank {
-        ONE(1,"A") ,
-        TWO(2,"2"),
-        THREE(3,"3"),
-        FOUR(4,"4"),
-        FIVE(5,"5"),
-        SIX(6,"6"),
-        SEVEN(7,"7"),
-        EIGHT(8,"8"),
-        NINE(9,"9"),
-        TEN(10,"10"),
-        JACK(11,"J"),
-        QUEEN(12,"Q"),
-        KING(12,"K"),
-        ACE(13,"A")
+        //ONE(1,"A") ,
+        TWO(2,'2'),
+        THREE(3,'3'),
+        FOUR(4,'4'),
+        FIVE(5,'5'),
+        SIX(6,'6'),
+        SEVEN(7,'7'),
+        EIGHT(8,'8'),
+        NINE(9,'9'),
+        TEN(10,'T'),
+        JACK(11,'J'),
+        QUEEN(12,'Q'),
+        KING(12,'K'),
+        ACE(13,'A')
         ;
 
         public final int ordinal;
-        public final String label;
+        public final char label;
 
-        private Rank(int ordinal, String label) {
+        Rank(int ordinal, char label) {
             this.ordinal = ordinal;
             this.label = label;
         }
+
     };
 
 
@@ -52,17 +58,18 @@ public class Card {
     }
 
 
-    private int rank;
+    private Rank rank;
     private Suit suit;
 
     boolean removed = false;
 
-    Card(int rank, Suit suit) {
+    Card(Rank rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
     }
-    Card(String input) {
-        this.setCard(input);
+    Card(String s) {
+        setRank(s.charAt(0));
+        setSuit(s.charAt(1));
     }
     public char getSuit() {
         switch (suit) {
@@ -79,48 +86,59 @@ public class Card {
                 return 'X';
         }
     }
-    public Suit setSuit(char c) {
+    public void setSuit(char c) {
         switch (c) {
             case 'C':
-                return Suit.Clubs;
+                suit = Suit.Clubs; break;
             case 'D':
-                return Suit.Diamonds;
+                suit =  Suit.Diamonds; break;
             case 'H':
-                return Suit.Hearts;
+                suit =  Suit.Hearts; break;
             case 'S':
-                return Suit.Spades;
+                suit =  Suit.Spades; break;
             default:
                 System.out.println("Invalid Suit " + c);
-                return Suit.Clubs;
+                suit =  Suit.Clubs;
         }
     }
 
-    public int getRank() {
+    public Rank getRank() {
         return rank;
     }
 
-    public char getCharRank() {
-        char c = (char) (rank + '0'); // 2-9
 
-        // Special cases if 10 - J, 11 - Q, 12 - K, 1 - A
-        if (rank == 1)
-            c = 'A';
-        else if (rank == 10)
-            c = 'J';
-        else if (rank == 11)
-            c = 'Q';
-        else if (rank == 12)
-            c = 'Q';
-
-        return c;
-    }
-    String getCard() {
-        return Character.toString(getCharRank()) + Character.toString(getSuit());
-    }
-    void setCard(String s) {
-        if (s.length() == 2) {
-            rank = s.charAt(0);
-            suit = setSuit(s.charAt(1));
+    public void setRank(char c) {
+        switch (c) {
+            case 'A':
+                rank = Rank.ACE; break;
+            case '2':
+                rank = Rank.TWO; break;
+            case '3':
+                rank = Rank.THREE; break;
+            case '4':
+                rank = Rank.FOUR; break;
+            case '5':
+                rank = Rank.FIVE; break;
+            case '6':
+                rank = Rank.SIX; break;
+            case '7':
+                rank = Rank.SEVEN; break;
+            case '8':
+                rank = Rank.EIGHT; break;
+            case '9':
+                rank = Rank.NINE; break;
+            case 'T':
+                rank = Rank.TEN; break;
+            case 'J':
+                rank = Rank.JACK; break;
+            case 'Q':
+                rank = Rank.QUEEN; break;
+            case 'K':
+                rank = Rank.KING; break;
+            default:
+                System.out.println("Invalid Rank " + c);
+                rank = Rank.ACE;
         }
     }
+
 }
