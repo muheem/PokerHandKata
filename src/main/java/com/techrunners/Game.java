@@ -93,6 +93,9 @@ public class Game {
         else if (hand1.type == Hand.WinType.Sequence) {
             // same hand, but one is probably higher value.
             return compareHighestCards();
+        } else if (hand1.type == Hand.WinType.Multiples) {
+            // same hand, but one is probably higher value.
+            return compareHighestCards();
         }
 
 
@@ -119,7 +122,6 @@ public class Game {
     private String compareHighestCards() {
         Card[] oH1 = player1.hand.orderedHand;
         Card[] oH2 = player2.hand.orderedHand;
-
 
         boolean winner = false;
         for (int i = oH1.length - 1; i >=0  ; i--) {

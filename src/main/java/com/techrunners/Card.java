@@ -69,7 +69,8 @@ public class Card {
         setSuit(s.charAt(1));
     }
 
-    public void setSuit(char c) {
+
+    private void setSuit(char c) {
         switch (c) {
             case 'C':
                 suit = Suit.Clubs; break;
@@ -91,8 +92,43 @@ public class Card {
     public Suit getSuit() {
         return suit;
     }
+    static public Rank getRank(int i) {
+        switch (i) {
+            case 1:
+                return Rank.ACE;
+            case 2:
+                return Rank.TWO;
+            case 3:
+                return Rank.THREE;
+            case 4:
+                return Rank.FOUR;
+            case 5:
+                return Rank.FIVE;
+            case 6:
+                return Rank.SIX;
+            case 7:
+                return Rank.SEVEN;
+            case 8:
+                return Rank.EIGHT;
+            case 9:
+                return Rank.NINE;
+            case 10:
+                return Rank.TEN;
+            case 11:
+                return Rank.JACK;
+            case 12:
+                return Rank.QUEEN;
+            case 13:
+                return Rank.KING;
+            //case 'A':
+            //    rank = Rank.ACE; break;
+            default:
+                System.out.println("Invalid Rank " + i);
+                return  Rank.ACE;
+        }
+    }
 
-    public void setRank(char c) {
+    private void setRank(char c) {
         switch (c) {
             case '1':
                 rank = Rank.ONE; break;
@@ -127,5 +163,4 @@ public class Card {
                 rank = Rank.ACE;
         }
     }
-
 }

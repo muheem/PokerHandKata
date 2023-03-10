@@ -1,8 +1,5 @@
 package com.techrunners;
 
-import org.jetbrains.annotations.NotNull;
-
-import javax.swing.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -52,8 +49,6 @@ public class Hand {
 
     };
 
-
-
     public int index = 0;
 
     Hand(){
@@ -89,15 +84,17 @@ public class Hand {
         orderedHand = Arrays.copyOf(fiveCards, fiveCards.length);
         Arrays.sort(orderedHand, Comparator.comparing(Card::getRank));
 
-        // Deal with issue of an ace in a sequence hand.
-        Card lastCard = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-1];
-        Card.Rank lastCardRank = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-1].getRank();
-        Card.Rank nextToLastCardRank = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-2].getRank();
-        if (lastCardRank == Card.Rank.ACE &&  nextToLastCardRank!= Card.Rank.KING){
-            Card one = new Card(Card.Rank.ONE, lastCard.getSuit());
-            orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND-1] = one;
-            Arrays.sort(orderedHand, Comparator.comparing(Card::getRank));
-        }
+        //if (myHand.type == WinType.Sequence) {
+            // Deal with issue of an ace in a sequence hand.
+            Card lastCard = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND - 1];
+            Card.Rank lastCardRank = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND - 1].getRank();
+            Card.Rank nextToLastCardRank = orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND - 2].getRank();
+            if (lastCardRank == Card.Rank.ACE && nextToLastCardRank != Card.Rank.KING) {
+                Card one = new Card(Card.Rank.ONE, lastCard.getSuit());
+                orderedHand[Game.NUMBER_OF_CARDS_IN_A_HAND - 1] = one;
+                Arrays.sort(orderedHand, Comparator.comparing(Card::getRank));
+            }
+        //}
 
         char[] rankA = rank.toCharArray();
         int i = Game.GetHighestCard(rankA);

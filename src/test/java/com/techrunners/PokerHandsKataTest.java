@@ -29,6 +29,7 @@ public class PokerHandsKataTest {
                 String blackHand = "2H 5D 2S 9C KD";
                 String whiteHand = "5C 3H 5S 3C AH";
 
+
                 Player black = new Player("Black" );
                 black.setHand(blackHand.split(" "));
 

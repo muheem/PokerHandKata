@@ -12,23 +12,23 @@ public class Deck {
     Deck() {
         //this.LoadTheDeck();
     }
-/*
+
     private void LoadTheDeck() {
         int index = 0;
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
-             cards[index] = new Card(i, Card.Suit.Clubs);
+             cards[index] = new Card(Card.getRank(i), Card.Suit.Clubs);
         }
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++) {
-            cards[index] = new Card(i, Card.Suit.Diamonds);
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Diamonds);
         }
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
-            cards[index] = new Card(i, Card.Suit.Hearts);
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Hearts);
         }
         for (int i = 0; i < NUMBER_OF_CARDS_IN_A_SUIT; i++, index++ ) {
-            cards[index] = new Card(i, Card.Suit.Spades);
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Spades);
         }
     }
-*/
+
     Card deal() {
         // Get a random number from 1 to 52.
         // "remove" the card at that numbered location in the deck.

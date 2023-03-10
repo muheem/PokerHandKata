@@ -1,13 +1,25 @@
 package com.techrunners;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Main {
+/*
+    Card deal() {
+        // Get a random number from 1 to 52.
+        // "remove" the card at that numbered location in the deck.
+        // Mark the card as played
+
+        Random rand = new Random();
+        int num = rand.nextInt(51) + 1;
+        while (cards[num].removed()){
+            num = rand.nextInt(51) + 1;
+        }
+        cards[num].remove(); // .. from pack
+        return cards[num]; //  Pass to player...
+    }
+*/
 
     private static int GetHighestCard (char[] rank) {
         char highest = ' ';
