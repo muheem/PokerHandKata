@@ -52,7 +52,7 @@ public class PokerHandsKataTest {
                 white.setHand(whiteHand.split(" "));
 
                 Game game = new Game( black, white);
-                assertEquals("Black wins. - with three of a Kind", game.playTheGame());
+                assertEquals("Black wins. - with three of a kind", game.playTheGame());
         }
 
 

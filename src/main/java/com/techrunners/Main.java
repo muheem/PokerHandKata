@@ -63,9 +63,19 @@ public class Main {
         // for each string in array hand1.getHand()
         // check if there are any pairs or triples (and how many pairs)
 
-        String black = "2H SD 2S 2C KD";
-        String white = "2C 3H 5S 8C AH";
+        String black = "5D 2D KS JH 7D";
+        String white = "2D 3S AD 5C 4H";
 
+        Player BP = new Player("Black" );
+        BP.setHand(black.split(" "));
+        Player WP = new Player("White" );
+        WP.setHand(white.split(" "));
+
+        Game game = new Game(BP, WP);
+        game.playTheGame();
+
+        //assertEquals("White wins. - with two pair", game.playTheGame());
+/*
         String[] bl = black.split(" ");
         String rank = "";
         String suit = "";
@@ -104,8 +114,9 @@ public class Main {
 
         System.out.println("Map=" + result );
 
-        int i = GetHighestCard(rankA);
-        System.out.println( "Highest is card " + rank.charAt(i) + suit.charAt(i));
-
+        //int i = GetHighestCard(rankA);
+        //System.out.println( "Highest is card " + rank.charAt(i) + suit.charAt(i));
+*/
     }
+
 }

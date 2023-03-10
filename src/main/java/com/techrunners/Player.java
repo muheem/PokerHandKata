@@ -29,9 +29,9 @@ public class Player {
     public void setWinningCardValue(char value) {
         hand.highestCard = value;
     }
-    public String winningMessage() {
+    public String winningMessage(Hand losingHand) {
         if (hand.myHand.type == Hand.WinType.High_Card)
-            return name() + " wins. - with " + hand.myHand.label + " " + hand.highestCard;
+            return name() + " wins. - with " + hand.myHand.label + " " + hand.highestCard + " beats " + losingHand.highestCard;
         else
             return name() + " wins. - with " + hand.myHand.label;
     }

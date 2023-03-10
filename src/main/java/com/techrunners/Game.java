@@ -1,9 +1,7 @@
 package com.techrunners;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 
 public class Game {
@@ -13,26 +11,9 @@ public class Game {
     Player player2;
 
 
-    public static boolean checkforAStraight(String rank) {
+    public static boolean checkforAStraight(char[] rank) {
         String straight = "A23456789TJQKA";
-        int[] intA = new int[rank.length()];
-        char[] rankArray = rank.toCharArray();
-
-        for (int j = 0; j < rankArray.length; j++) {
-            for (int i = 0; i < straight.length(); i++) {
-                if (rank.charAt(j) == straight.charAt(i))
-                    intA[j] = i;
-            }
-        }
-        Arrays.sort(intA);
-
-        // Reform string in order.
-        for (int i = 0; i < rank.length(); i++) {
-            rankArray[i] = straight.charAt(intA[i]);
-        }
-
-        String sortedRank = String.valueOf(rankArray);
-
+        String sortedRank = String.valueOf(rank);
         return straight.contains(sortedRank);
     }
 
@@ -53,25 +34,15 @@ public class Game {
         }
         return index;
     }
+    public static List<Character> convertStringToCharList(char[] array) {
 
-    public static List<Character> convertStringToCharList(String str) {
-
-        // Create an empty List of character
-        List<Character> chars = str
-
-                // Convert to String to IntStream
-                .chars()
-
-                // Convert IntStream to Stream<Character>
-                .mapToObj(e -> (char) e)
-
-                // Collect the elements as a List Of Characters
-                .collect(Collectors.toList());
+        List<Character> listArray = new ArrayList<>();
+        for (char c : array)
+            listArray.add(c);
 
         // return the List
-        return chars;
+        return listArray;
     }
-
 
     Game(Player player1, Player player2) {
         this.player1 = player1;
@@ -83,39 +54,43 @@ public class Game {
     }
 
     public String workOutTheWinningHand() {
-        Hand.BEST_HAND hand1 = player1.hand.myHand;
-        Hand.BEST_HAND hand2 = player2.hand.myHand;
+        Hand.BestHand hand1 = player1.hand.myHand;
+        Hand.BestHand hand2 = player2.hand.myHand;
 
         if (hand1.ordinal > hand2.ordinal)
-            return player1.winningMessage();
+            return player1.winningMessage(player2.hand);
         else if (hand1.ordinal < hand2.ordinal)
-            return player2.winningMessage();
-        else if (hand1.type == Hand.WinType.Sequence) {
+            return player2.winningMessage(player1.hand);
+        else if (hand1.type == Hand.WinType.Sequence)
             // same hand, but one is probably higher value.
             return compareHighestCards();
-        } else if (hand1.type == Hand.WinType.Multiples) {
+        else if (hand1.type == Hand.WinType.Multiples)
             // same hand, but one is probably higher value.
             return compareHighestCards();
-        }
+        else if (hand1.type == Hand.WinType.Same_Suit)
+            // same hand, but one is probably higher value.
+            return compareHighestCards();
 
+        if (hand1 == Hand.BestHand.HIGH_CARD)
+            return HandleHighCard();
 
-        if (hand1 == Hand.BEST_HAND.HIGHEST_CARD) {
-            char hc1 = player1.hand.highestCard;
-            char hc2 = player2.hand.highestCard;
+        return "Tie";
+    }
 
-            // compare high cards.
-            if ( hc1 == hc2 )
-                return (compareHighestCards());
+    private String HandleHighCard() {
+        char hc1 = player1.hand.highestCard;
+        char hc2 = player2.hand.highestCard;
 
-            if (hc1 =='A' )
-                return player1.winningMessage();
-            if (hc2 =='A' )
-                return player2.winningMessage();
-            if (hc1 > hc2)
-                return player1.winningMessage();
-            if (hc1 < hc2)
-                return player2.winningMessage();
-        }
+        if ( hc1 == hc2 )
+            return (compareHighestCards());
+        if (hc1 =='A' )
+            return player1.winningMessage(player2.hand);
+        if (hc2 =='A' )
+            return player2.winningMessage(player1.hand);
+        if (hc1 > hc2)
+            return player1.winningMessage(player2.hand);
+        if (hc1 < hc2)
+            return player2.winningMessage(player1.hand);
         return "Tie";
     }
 
@@ -124,13 +99,16 @@ public class Game {
         Card[] oH2 = player2.hand.orderedHand;
 
         boolean winner = false;
-        for (int i = oH1.length - 1; i >=0  ; i--) {
+        for (int i = oH1.length - 1; i >= 0  ; i--) {
             if (oH1[i].getRank().ordinal > oH2[i].getRank().ordinal) {
                 player1.setWinningCardValue(oH1[i].getRank().label);
-                return player1.winningMessage();
-            } else if (oH1[i].getRank().ordinal < oH2[i].getRank().ordinal) {
+                player2.hand.highestCard = oH2[i].getRank().label;
+                return player1.winningMessage(player2.hand);
+            }
+            else if (oH1[i].getRank().ordinal < oH2[i].getRank().ordinal) {
                 player2.setWinningCardValue(oH2[i].getRank().label);
-                return player2.winningMessage();
+                player1.hand.highestCard = oH1[i].getRank().label;
+                return player2.winningMessage(player1.hand);
             }
         }
         return "Tie";
