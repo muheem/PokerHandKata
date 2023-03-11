@@ -33,6 +33,9 @@ QD QD QD 4D 7D, 2S TD JH 4D KD, Black wins. - with a flush, simple flush (also a
 
 2H 4S 4C 2D 4H, 2S 8S AS QS 3S, Black wins. - with full house, :4 over 2 - removed details for now
 3D 3H AH 4H AD, JC JH JS KS KH, White wins. - with full house
+3D 3H AH 3H AD, 3D 3H AH 3H AD, Tie
+4D 3H 2H 3H JD, 3D 3H AH 3H AD, White wins. - with full house, White with a kicker : A
+JC JH JS KS KH, QD QD QD 4D 7D, Black wins. - with full house, full house beats a flush
 
 AH AD AS AC 2C, 6D 3D 2D 4D 7D, Black wins. - with four of a kind, four of a kind beats flush
 QH QD QS QC 6S, 3S 3H 9C 9S 9D, Black wins. - with four of a kind, four of a kind beats full house
@@ -41,4 +44,5 @@ AH AD AS AC 6S, AH AD AS AC 6S, Tie, two four of a kind: tie
 
 QH QD QS QC 6S, 9D TD JD QD KD, White wins. - with a straight flush
 TD JD QD KD AD, 9D TD JD QD KD, Black wins. - with a straight flush, two flushes higher wins
-
+9D TD JD QD KD, 9D TD JD QD KD, Tie
+9D TD JD QD KD, AD AS AH KH AD, Black wins. - with a straight flush, beating a four of a kind
