@@ -6,10 +6,10 @@ import java.util.Comparator;
 public class Straight implements BestHand {
     boolean isStraight = false;
 
-    public Hand.MyHand show(){
+    public Hand.PokerHand show(){
         if (isStraight)
-            return Hand.MyHand.A_STRAIGHT;
-        return Hand.MyHand.NULL;
+            return Hand.PokerHand.A_STRAIGHT;
+        return Hand.PokerHand.NULL;
     }
 
     public void calculate(Card[] card, char[] rank) {

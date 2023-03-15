@@ -36,8 +36,8 @@ public class Game {
     }
 
     private String HandleHighCard() {
-        char hc1 = black.highestCard;
-        char hc2 = white.highestCard;
+        char hc1 = black.getHighestCard();
+        char hc2 = white.getHighestCard();
 
         if ( hc1 == hc2 )
             return (compareHighestCardsWhenATie());
@@ -60,12 +60,12 @@ public class Game {
         for (int i = wh.length - 1; i >= 0  ; i--) {
             if (wh[i].getRank().ordinal > bh[i].getRank().ordinal) {
                 black.setWinningCardValue(wh[i].getRank().label);
-                white.highestCard = bh[i].getRank().label;
+                white.setHighestCard(bh[i].getRank().label);
                 return black.winningMessage(white);
             }
             else if (wh[i].getRank().ordinal < bh[i].getRank().ordinal) {
                 white.setWinningCardValue(bh[i].getRank().label);
-                black.highestCard = wh[i].getRank().label;
+                black.setHighestCard(wh[i].getRank().label);
                 return white.winningMessage(black);
             }
         }

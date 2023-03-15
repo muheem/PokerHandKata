@@ -5,8 +5,8 @@ public class HighCard implements BestHand {
     int highestCardIndex = 1;
     Card[] hand = new Card[Game.NUMBER_OF_CARDS_IN_A_HAND];
 
-    public Hand.MyHand show(){
-        return Hand.MyHand.HIGH_CARD;
+    public Hand.PokerHand show(){
+        return Hand.PokerHand.HIGH_CARD;
     }
 
     public void calculate(Card[] card, char[] rank) {

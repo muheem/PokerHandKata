@@ -4,17 +4,17 @@ import java.util.*;
 
 public class Hand {
 
-    BestHand sameOfAKind = new SameOfAKind();
-    BestHand straight = new Straight();
-    BestHand highCard = new HighCard();
+    private BestHand sameOfAKind = new SameRanking();
+    private BestHand straight = new Straight();
+    private BestHand highCard = new HighCard();
 
     private String[] StringHand = new String[Game.NUMBER_OF_CARDS_IN_A_HAND];
     private Card[] fiveCards = new Card[Game.NUMBER_OF_CARDS_IN_A_HAND];
 
     private boolean sameSuit = false;
-    public char highestCard;
+    private  char highestCard;
 
-    public MyHand myHand = null;
+    public PokerHand myHand = null;
 
     public enum WinType {
         NoHand,
@@ -24,7 +24,7 @@ public class Hand {
         High_Card;
     };
 
-    public enum MyHand {
+    public enum PokerHand {
         NULL(0, "no hand", WinType.NoHand),
         HIGH_CARD(1, "high card:", WinType.High_Card),
         A_PAIR(2, "a pair", WinType.SameOfAKind), // Check the rank number
@@ -41,14 +41,14 @@ public class Hand {
         public final String label;
         public final WinType type;
 
-        MyHand(int ordinal, String label, WinType type) {
+        PokerHand(int ordinal, String label, WinType type) {
             this.ordinal = ordinal;
             this.label = label;
             this.type = type;
         }
     };
 
-    String name = " ";
+    private String name = " ";
 
     Hand(String name) {
         this.name = name;
@@ -59,13 +59,16 @@ public class Hand {
         calculate();
         workOutBestHand();
     }
-    public String[] getStringHand() {
-        return StringHand;
 
-    }
     public Card[] getHand() {
         return fiveCards;
 
+    }
+    public char getHighestCard() {
+        return highestCard;
+    }
+    public void setHighestCard(char card) {
+        highestCard = card;
     }
     private void calculate() {
         fiveCards = new Card[Game.NUMBER_OF_CARDS_IN_A_HAND];
@@ -81,7 +84,7 @@ public class Hand {
         }
 
         sameOfAKind.calculate(fiveCards,rank);
-        if (sameOfAKind.show() == MyHand.NULL )
+        if (sameOfAKind.show() == PokerHand.NULL )
             straight.calculate(fiveCards, rank);
         highCard.calculate(fiveCards, rank);
 
@@ -93,39 +96,39 @@ public class Hand {
     public void workOutBestHand() {
 
         // Don't consider ROYAL_FLUSH for now
-        if (straight.show() != MyHand.NULL  && sameSuit) {
-            myHand = MyHand.STRAIGHT_FLUSH;
+        if (straight.show() != PokerHand.NULL  && sameSuit) {
+            myHand = PokerHand.STRAIGHT_FLUSH;
             return;
         }
 
-        MyHand sameOfAKindType = sameOfAKind.show();
-        if (sameOfAKindType == MyHand.FOUR_OF_A_KIND ) {
+        PokerHand sameOfAKindType = sameOfAKind.show();
+        if (sameOfAKindType == PokerHand.FOUR_OF_A_KIND ) {
             myHand = sameOfAKindType;
             return;
         }
 
-        if (sameOfAKindType == MyHand.FULL_HOUSE) {
+        if (sameOfAKindType == PokerHand.FULL_HOUSE) {
             myHand = sameOfAKindType;
             return;
         }
 
         if (sameSuit) {
-            myHand = MyHand.A_FLUSH;
+            myHand = PokerHand.A_FLUSH;
             return;
         }
 
-        if (straight.show() !=MyHand.NULL) {
-            myHand = MyHand.A_STRAIGHT;
+        if (straight.show() != PokerHand.NULL) {
+            myHand = PokerHand.A_STRAIGHT;
             return;
         }
 
-        if (sameOfAKindType != MyHand.NULL) {
+        if (sameOfAKindType != PokerHand.NULL) {
             myHand = sameOfAKindType;
             return;
         }
 
         // Finally what is left, highest card
-        myHand = MyHand.HIGH_CARD;
+        myHand = PokerHand.HIGH_CARD;
     }
 
     public void setWinningCardValue(char value) {
