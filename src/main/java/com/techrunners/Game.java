@@ -1,114 +1,72 @@
 package com.techrunners;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Game {
     public static final int NUMBER_OF_CARDS_IN_A_HAND = 5;
 
-    Player player1;
-    Player player2;
+    Hand black = new Hand("Black");
+    Hand white = new Hand("White");
 
 
-    public static boolean checkforAStraight(char[] rank) {
-        String straight = "A23456789TJQKA";
-        String sortedRank = String.valueOf(rank);
-        return straight.contains(sortedRank);
-    }
-
-    public static int GetHighestCard(char[] rank) {
-        char highest = ' ';
-        int index = 0;
-        for (int i = 0; i < 5; i++) {
-            // 23456789JQK1
-            // Ascii-wise 1, smallest but highest, and King < Queen/
-            if (rank[i] == 'A')
-                return i;
-            if (rank[i] == 'K')
-                return i;
-            if (highest < rank[i]) {
-                highest = rank[i];
-                index = i;
-            }
-        }
-        return index;
-    }
-    public static List<Character> convertStringToCharList(char[] array) {
-
-        List<Character> listArray = new ArrayList<>();
-        for (char c : array)
-            listArray.add(c);
-
-        // return the List
-        return listArray;
-    }
-
-    Game(Player player1, Player player2) {
-        this.player1 = player1;
-        this.player2 = player2;
+    Game(String[] blackHand, String[] whiteHand) {
+        this.black.setStringHand(blackHand);
+        this.white.setStringHand(whiteHand);
     }
 
     public String playTheGame() {
         return workOutTheWinningHand();
     }
 
-    public String workOutTheWinningHand() {
-        Hand.BestHand hand1 = player1.hand.myHand;
-        Hand.BestHand hand2 = player2.hand.myHand;
+    private String workOutTheWinningHand() {
+        int handB = black.myHand.ordinal;
+        int handW = white.myHand.ordinal;
+        Hand.WinType type = black.myHand.type;
 
-        if (hand1.ordinal > hand2.ordinal)
-            return player1.winningMessage(player2.hand);
-        else if (hand1.ordinal < hand2.ordinal)
-            return player2.winningMessage(player1.hand);
-        else if (hand1.type == Hand.WinType.Sequence)
-            // same hand, but one is probably higher value.
-            return compareHighestCards();
-        else if (hand1.type == Hand.WinType.Multiples)
-            // same hand, but one is probably higher value.
-            return compareHighestCards();
-        else if (hand1.type == Hand.WinType.Same_Suit)
-            // same hand, but one is probably higher value.
-            return compareHighestCards();
+        if (handB > handW)
+            return black.winningMessage(white);
+        if (handB < handW)
+            return white.winningMessage(black);
 
-        if (hand1 == Hand.BestHand.HIGH_CARD)
+        if (type == Hand.WinType.High_Card)
             return HandleHighCard();
+        else if (type != Hand.WinType.NoHand)
+            return compareHighestCardsWhenATie();
 
         return "Tie";
     }
 
     private String HandleHighCard() {
-        char hc1 = player1.hand.highestCard;
-        char hc2 = player2.hand.highestCard;
+        char hc1 = black.highestCard;
+        char hc2 = white.highestCard;
 
         if ( hc1 == hc2 )
-            return (compareHighestCards());
+            return (compareHighestCardsWhenATie());
         if (hc1 =='A' )
-            return player1.winningMessage(player2.hand);
+            return black.winningMessage(white);
         if (hc2 =='A' )
-            return player2.winningMessage(player1.hand);
+            return white.winningMessage(black);
         if (hc1 > hc2)
-            return player1.winningMessage(player2.hand);
+            return black.winningMessage(white);
         if (hc1 < hc2)
-            return player2.winningMessage(player1.hand);
+            return white.winningMessage(black);
         return "Tie";
     }
 
-    private String compareHighestCards() {
-        Card[] oH1 = player1.hand.orderedHand;
-        Card[] oH2 = player2.hand.orderedHand;
+    private String compareHighestCardsWhenATie() {
+        Card[] wh = black.getHand();
+        Card[] bh = white.getHand();
 
         boolean winner = false;
-        for (int i = oH1.length - 1; i >= 0  ; i--) {
-            if (oH1[i].getRank().ordinal > oH2[i].getRank().ordinal) {
-                player1.setWinningCardValue(oH1[i].getRank().label);
-                player2.hand.highestCard = oH2[i].getRank().label;
-                return player1.winningMessage(player2.hand);
+        for (int i = wh.length - 1; i >= 0  ; i--) {
+            if (wh[i].getRank().ordinal > bh[i].getRank().ordinal) {
+                black.setWinningCardValue(wh[i].getRank().label);
+                white.highestCard = bh[i].getRank().label;
+                return black.winningMessage(white);
             }
-            else if (oH1[i].getRank().ordinal < oH2[i].getRank().ordinal) {
-                player2.setWinningCardValue(oH2[i].getRank().label);
-                player1.hand.highestCard = oH1[i].getRank().label;
-                return player2.winningMessage(player1.hand);
+            else if (wh[i].getRank().ordinal < bh[i].getRank().ordinal) {
+                white.setWinningCardValue(bh[i].getRank().label);
+                black.highestCard = wh[i].getRank().label;
+                return white.winningMessage(black);
             }
         }
         return "Tie";

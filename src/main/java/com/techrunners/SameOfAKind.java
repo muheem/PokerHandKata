@@ -1,40 +1,50 @@
 package com.techrunners;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class SameOfAKind implements WinningHand {
+public class SameOfAKind implements BestHand {
     private int threeOfAKind = 0;
     private int twoOfAKind = 0;
     private int fourOfAKind = 0;
+    public Card[] fiveCards = new Card[Game.NUMBER_OF_CARDS_IN_A_HAND];
 
-    public static WinningHand findWinningHand(Card[] hand) {
-        Map<Character, Long> groupedRank;
+    public Hand.MyHand show() {
 
-        // if a pair or more, then cannot have a straight
-        char[] rank = new char[Game.NUMBER_OF_CARDS_IN_A_HAND];
+        if (fourOfAKind == 1)
+            return Hand.MyHand.FOUR_OF_A_KIND;
 
-        // Split rank and suite
-        for (int i = 0; i < Game.NUMBER_OF_CARDS_IN_A_HAND; i++) {
-            rank[i] += hand[i].getRank().label;
-        }
+        if (threeOfAKind == 1 && twoOfAKind == 1)
+            return Hand.MyHand.FULL_HOUSE;
+
+        if (threeOfAKind > 0)
+            return Hand.MyHand.THREE_OF_A_KIND;
+
+        if (twoOfAKind > 0)
+            return twoOfAKind == 2 ? Hand.MyHand.TWO_PAIR : Hand.MyHand.A_PAIR;
+
+        return Hand.MyHand.NULL;
+    }
+
+    public void calculate(Card[] hand, char[] rank) {
 
         // Check for pairs and three-of-a-kind and 4-of-a-kind.
-        List<Character> rankL = Game.convertStringToCharList(rank);
-        groupedRank
-                = rankL.stream().collect(
+        List<Character> rankList = Hand.convertStringToCharList(rank);
+        Map<Character, Long> groupedRank = rankList.stream().collect(
                 Collectors.groupingBy(
                         Function.identity(),
                         Collectors.counting()));
-
-        return (new SameOfAKind(groupedRank));
+        calculateWhichSequence(groupedRank);
     }
 
-    private  int CalculateSequence(Map<Character, Long> groupedRank) {
+    private void calculateWhichSequence(Map<Character, Long> groupedRank) {
         for (Map.Entry<Character, Long> entry : groupedRank.entrySet()) {
             switch (Long.valueOf(entry.getValue()).intValue()) {
                 case 2:
@@ -47,10 +57,5 @@ public class SameOfAKind implements WinningHand {
                     fourOfAKind = 1;
             }
         }
-        return (twoOfAKind + threeOfAKind + fourOfAKind);
-    }
-
-    SameOfAKind(Map<Character, Long> groupedRank) {
-        this.CalculateSequence(groupedRank);
     }
 }

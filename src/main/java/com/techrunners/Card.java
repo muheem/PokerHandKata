@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 public class Card {
 
+    static final int NUMBER_OF_CARDS_IN_A_DECK = 52;
+    static final int NUMBER_OF_CARDS_IN_A_SUIT = 13;
 
     public enum Suit {
         Clubs("C"),
@@ -48,17 +50,9 @@ public class Card {
 
     };
 
-    public boolean removed() {
-        return removed;
-    }
-    public void remove() {
-        removed = true;
-    }
 
     private Rank rank;
     private Suit suit;
-
-    boolean removed = false;
 
     Card(Rank rank, Suit suit) {
         this.rank = rank;
@@ -92,6 +86,7 @@ public class Card {
     public Suit getSuit() {
         return suit;
     }
+
     static public Rank getRank(int i) {
         switch (i) {
             case 1:

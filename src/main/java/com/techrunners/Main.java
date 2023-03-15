@@ -1,122 +1,84 @@
 package com.techrunners;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static com.techrunners.Card.NUMBER_OF_CARDS_IN_A_DECK;
+import static com.techrunners.Card.NUMBER_OF_CARDS_IN_A_SUIT;
+import static com.techrunners.Game.NUMBER_OF_CARDS_IN_A_HAND;
 
 public class Main {
-/*
-    Card deal() {
+
+    static Card[] cards = new Card[NUMBER_OF_CARDS_IN_A_DECK];
+
+    static void LoadTheDeck() {
+        int index = 0;
+        for (int i = 1; i <= NUMBER_OF_CARDS_IN_A_SUIT; i++, index++) {
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Clubs);
+        }
+        for (int i = 1; i <= NUMBER_OF_CARDS_IN_A_SUIT; i++, index++) {
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Diamonds);
+        }
+        for (int i = 1; i <= NUMBER_OF_CARDS_IN_A_SUIT; i++, index++) {
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Hearts);
+        }
+        for (int i = 1; i <= NUMBER_OF_CARDS_IN_A_SUIT; i++, index++) {
+            cards[index] = new Card(Card.getRank(i), Card.Suit.Spades);
+        }
+    }
+
+    static String[] deal() {
         // Get a random number from 1 to 52.
         // "remove" the card at that numbered location in the deck.
         // Mark the card as played
+        String[] stringHand = new String[NUMBER_OF_CARDS_IN_A_HAND];
 
         Random rand = new Random();
-        int num = rand.nextInt(51) + 1;
-        while (cards[num].removed()){
+        int num = 0;
+        for (int i = 0; i < NUMBER_OF_CARDS_IN_A_HAND; i++) {
             num = rand.nextInt(51) + 1;
+            stringHand[i] = cards[num].getRank().label + cards[num].getSuit().label;
         }
-        cards[num].remove(); // .. from pack
-        return cards[num]; //  Pass to player...
-    }
-*/
-
-    private static int GetHighestCard (char[] rank) {
-        char highest = ' ';
-        int index = 0;
-        for (int i = 0; i < 5; i++) {
-            // 23456789JQK1
-            // Ascii-wise 1, smallest but highest, and King < Queen/
-            if (rank[i] == 'A')
-                return i;
-            if (rank[i] == 'K')
-                return i;
-            if (highest < rank[i]) {
-                highest = rank[i];
-                index = i;
-            }
-        }
-        return rank[index];
-    }
-
-    public static List<Character> convertStringToCharList(String str)
-    {
-
-        // Create an empty List of character
-        List<Character> chars = str
-
-                // Convert to String to IntStream
-                .chars()
-
-                // Convert IntStream to Stream<Character>
-                .mapToObj(e -> (char)e)
-
-                // Collect the elements as a List Of Characters
-                .collect(Collectors.toList());
-
-        // return the List
-        return chars;
+        return stringHand; //  Pass to player...
     }
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);    //System.in is a standard input stream
+        LoadTheDeck();
 
-        // for each string in array hand1.getHand()
-        // check if there are any pairs or triples (and how many pairs)
+        System.out.println("***************************");
+        System.out.println("WELCOME TO POKER HANDS KATA");
+        System.out.println("***************************");
+        System.out.println("                           ");
 
-        String black = "5D 2D KS JH 7D";
-        String white = "2D 3S AD 5C 4H";
 
-        Player BP = new Player("Black" );
-        BP.setHand(black.split(" "));
-        Player WP = new Player("White" );
-        WP.setHand(white.split(" "));
+        while (true) {
+            String black = "";
+            String white = "";
+            System.out.println("Please Enter BLACK poker hand in the following format: ");
+            System.out.println("-------  JD TD 3H 3D 5H   (enter 'bye' to exit)  -------");
+            black = sc.nextLine();
+            if ("bye".equalsIgnoreCase(black))
+                break;
+            else if (black.length() == 0)
+                black = String.join(" ", deal());
 
-        Game game = new Game(BP, WP);
-        game.playTheGame();
 
-        //assertEquals("White wins. - with two pair", game.playTheGame());
-/*
-        String[] bl = black.split(" ");
-        String rank = "";
-        String suit = "";
+            System.out.println("Please Enter WHITE poker hand  in the following format: ");
+            System.out.println("-------  KS 6D KS KS TS  (enter 'bye' to exit)  -------");
+            white = sc.nextLine();
+            if ("bye".equalsIgnoreCase(white))
+                break;
+            else if (white.length() == 0) {
+                white = String.join(" ", deal());
+            }
 
-        // Split rank ans suite
-        for(String val:bl) {
-            rank += val.charAt(0);
-            suit += val.charAt(1);
+            // Compare hands
+            Game game = new Game(black.split(" "), white.split(" "));
+            System.out.println("***************************");
+            System.out.println("Black: " + black + " ,White: " + white );
+            System.out.println(game.playTheGame());
+            System.out.println("***************************");
+            System.out.println("                           ");
         }
-        System.out.println("rank=" + rank + " suit=" + suit);
-
-        String finalSuit = suit;
-        // need to know for a flush (which ever type)
-        boolean sameSuit = suit.chars().allMatch(c -> c == finalSuit.charAt(0)) ;
-        if (sameSuit)
-            System.out.println("All the same suit");
-
-        String finalRank = rank;
-        boolean pair = rank.chars().anyMatch(c -> c == finalRank.charAt(0)) ;
-        if (pair)
-            System.out.println("There is a match");
-
-        char[] rankA = rank.toCharArray();
-        List<Character> rankL= convertStringToCharList(rank);
-        System.out.println("rankL=" + rankL );
-
-        char test = rank.charAt(0);
-        long count = rank.chars().filter(ch -> ch == test).count();
-        System.out.println("There are " + count + " 2's");
-
-        Map<Character, Long> result
-                = rankL.stream().collect(
-                        Collectors.groupingBy(
-                                Function.identity(),
-                                Collectors.counting()));
-
-        System.out.println("Map=" + result );
-
-        //int i = GetHighestCard(rankA);
-        //System.out.println( "Highest is card " + rank.charAt(i) + suit.charAt(i));
-*/
     }
-
 }
